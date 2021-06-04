@@ -9,11 +9,12 @@ var plinkos = [];
 var divisions = [];
 var divisionHeight=300;
 var score =0;
+var count = 0;
 function setup() {
   createCanvas(800, 800);
   engine = Engine.create();
   world = engine.world;
-  ground = new Ground(width/2,height,width,20);
+  ground = new Ground(width/2,height,width,10);
 
 
    for (var k = 0; k <=width; k = k + 80) {
@@ -54,19 +55,29 @@ function setup() {
 
 function draw() {
   background("black");
-  textSize(20)
+  textSize(30);
   text("Score : "+score,20,30);
+  textSize(30);
+  // texting scorres
+  for (var i = 30 ; i < 270 ; i = i+80){
+    text(100, i-20,600);
+  }
+  for (var i = 590 ; i < width ; i = i+80){
+    text(100, i-20,600);
+  }
+  for (var i = 270 ; i < 590 ; i = i+80){
+    text(500, i-20,600);
+  }
+
   Engine.update(engine);
  
-  
    for (var i = 0; i < plinkos.length; i++) {
      
      plinkos[i].display();
      
    }
-   if(frameCount%60===0){
+   if(frameCount===60){
      particles.push (new Particle(random(width/2-30, width/2+30), 10,10));
-     score++;
    }
  
   for (var j = 0; j < particles.length; j++) {
@@ -76,5 +87,20 @@ function draw() {
    for (var k = 0; k < divisions.length; k++) {
      
      divisions[k].display();
+   }
+   //counting scores  (5 times)
+   if (particles[0]&&particles[0].body.position.y >750){
+      particles[0].remove();
+      particles.pop();
+      score = score + 500;
+      if (count < 4){
+        particles.push (new Particle(random(width/2-30, width/2+30), 10,10));
+      }
+      count++;
+      console.log(count);
+   }
+   if (count === 5){
+     textSize(80);
+     text("Game Over",200,450);
    }
 }

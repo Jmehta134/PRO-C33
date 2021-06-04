@@ -4,11 +4,14 @@ class Particle {
             restitution:0.4
         }
         this.r=r;
-      
+        this.x=x;
         this.body = Bodies.circle(x, y, this.r,options);       
         this.color=color(random(0, 255), random(0, 255), random(0, 255));
         World.add(world, this.body);
 
+    }
+    remove(){
+        World.remove(world, this.body);
     }
     display() {
 
